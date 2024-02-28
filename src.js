@@ -10,21 +10,43 @@ const characters = [
   ];
 
 //Arrow functions
-const generateCaptcha = () =>{
-    return Array.from({ length: 6 }).reduce((code, _) => { // _ es un parametro que no se necesita dentro de la funcion
+const generateCaptcha = len =>{
+    return Array.from({ length: len }).reduce((code, _) => { // _ es un parametro que no se necesita dentro de la funcion
         return code + characters[Math.floor(Math.random() * characters.length)];
     }, ''); //Inicializar el captcha con una cadena vacia
 }
 
-const fillWithFood = Array =>{
-
+const fillWithFoods = () =>{
+    return ["Arepa", "Huevo", "Queso", "Pan", "Remolacha", "Rabano", "Aguacate", "Miel", "Mostaza", "Spaghetti", "Pizza", "Platano", "Manzana", "ñame"];
 }
 
 //Arrays
-let captchas = Array.from({length:10}, generateCaptcha); //Generar un array con 10 captchas obtenidos de la funcion generateCaptcha
+let captchas = Array.from({length:10},() => generateCaptcha(6)); //Generar un array con 10 captchas obtenidos de la funcion generateCaptcha
 
-let foods = [];
+let foods = fillWithFoods();
 let prices = [];
 let files = [];
 
-console.log(captchas);
+//Array methods implementation
+//Método 1
+//
+
+
+
+//Metodo 2: filter
+//Verificar cuantas comidas del array de comidas poseen al menos 1 vez uno de los cinco carácteres generados al azar por la funcion generateCaptcha
+const foodCharacters = Array.from({length: 5}, () => generateCaptcha(1));
+
+let contador = 0;
+const comidaConCaracter = foods.filter(food => {
+    const lowerCaseFood = food.toLowerCase();
+    if (foodCharacters.some(char => lowerCaseFood.includes(char.toLowerCase()))) {
+        contador++;
+        return true; 
+    } else return false; 
+});
+
+console.log(`Metodo 2:Filter\nCarácteres escogidos para la comida: ${foodCharacters}\nComidas que tienen alguno de estos carácteres: ${comidaConCaracter}\nCantidad: ${contador} de ${foods.length}`);
+
+
+
